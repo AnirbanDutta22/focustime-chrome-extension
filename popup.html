@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>FocusTime</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body data-tab="stopwatch">
+    <!-- decorative backdrop: grain, blobs, stars, a tiny orbiting "planet" -->
+    <div class="scene">
+      <span class="grain"></span>
+      <span class="blob blob-a"></span>
+      <span class="blob blob-b"></span>
+
+      <svg class="planet" viewBox="0 0 60 60" width="46" height="46">
+        <ellipse
+          cx="30"
+          cy="30"
+          rx="26"
+          ry="9"
+          fill="none"
+          stroke="#2596BE"
+          stroke-opacity="0.55"
+          stroke-width="1.5"
+          transform="rotate(-18 30 30)"
+        />
+        <circle
+          cx="30"
+          cy="30"
+          r="13"
+          fill="#0f131b"
+          stroke="#AE0123"
+          stroke-opacity="0.6"
+          stroke-width="1.4"
+        />
+        <circle cx="25" cy="25" r="3.2" fill="#2596BE" fill-opacity="0.35" />
+      </svg>
+
+      <svg class="constellation" viewBox="0 0 120 90" width="100" height="76">
+        <g stroke="#2596BE" stroke-opacity="0.35" stroke-width="1">
+          <line x1="8" y1="66" x2="34" y2="40" />
+          <line x1="34" y1="40" x2="60" y2="52" />
+          <line x1="60" y1="52" x2="90" y2="18" />
+        </g>
+        <circle class="star" cx="8" cy="66" r="2.2" fill="#2596BE" />
+        <circle class="star star-d1" cx="34" cy="40" r="1.6" fill="#fff" />
+        <circle class="star star-d2" cx="60" cy="52" r="2" fill="#2596BE" />
+        <circle class="star star-d1" cx="90" cy="18" r="2.6" fill="#AE0123" />
+      </svg>
+
+      <span class="spark spark-1"></span>
+      <span class="spark spark-2"></span>
+      <span class="spark spark-3"></span>
+    </div>
+
+    <div class="app">
+      <header class="topbar">
+        <div class="brand">
+          <span class="brand-mark">
+            <img src="./icons/icon32.png" alt="logo" />
+          </span>
+          <span class="brand-name">FocusTime</span>
+        </div>
+
+        <nav class="tabs" id="tabs">
+          <span class="tab-indicator" id="tab-indicator"></span>
+          <button class="tab-btn active" data-tab="stopwatch">Stopwatch</button>
+          <button class="tab-btn" data-tab="timer">Timer</button>
+          <button class="tab-btn" data-tab="alarm">Alarm</button>
+        </nav>
+      </header>
+
+      <!-- STOPWATCH -->
+      <section id="stopwatch" class="panel active">
+        <div class="ring-stage">
+          <span class="ring-blob"></span>
+          <div class="ring-wrap">
+            <svg class="ring" viewBox="0 0 200 200">
+              <defs>
+                <filter
+                  id="rough-sw"
+                  x="-20%"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency="0.012"
+                    numOctaves="2"
+                    seed="4"
+                    result="noise"
+                  />
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" />
+                </filter>
+              </defs>
+              <circle class="ring-track" cx="100" cy="100" r="86"></circle>
+              <circle class="ring-glow" cx="100" cy="100" r="86"></circle>
+              <circle
+                id="sw-ring-progress"
+                class="ring-progress"
+                cx="100"
+                cy="100"
+                r="86"
+                filter="url(#rough-sw)"
+              ></circle>
+              <circle
+                id="sw-orbit-dot"
+                class="orbit-dot"
+                cx="100"
+                cy="14"
+                r="5"
+              ></circle>
+            </svg>
+            <div class="ring-center">
+              <div id="sw-display" class="time-display">00:00.00</div>
+              <div class="sub-label">stopwatch</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="controls">
+          <button id="sw-lap" class="btn btn-acrylic" disabled>Lap</button>
+          <button id="sw-start" class="btn btn-candy">
+            <span class="btn-icon play"></span>
+            <span class="btn-label">Start</span>
+          </button>
+          <button id="sw-reset" class="btn btn-acrylic">Reset</button>
+        </div>
+
+        <ul id="sw-laps" class="laps"></ul>
+      </section>
+
+      <!-- TIMER -->
+      <section id="timer" class="panel">
+        <div class="ring-stage">
+          <span class="ring-blob"></span>
+          <div class="ring-wrap">
+            <svg class="ring" viewBox="0 0 200 200">
+              <defs>
+                <filter
+                  id="rough-tm"
+                  x="-20%"
+                  y="-20%"
+                  width="140%"
+                  height="140%"
+                >
+                  <feTurbulence
+                    type="fractalNoise"
+                    baseFrequency="0.014"
+                    numOctaves="2"
+                    seed="9"
+                    result="noise"
+                  />
+                  <feDisplacementMap in="SourceGraphic" in2="noise" scale="7" />
+                </filter>
+              </defs>
+              <circle class="ring-track" cx="100" cy="100" r="86"></circle>
+              <circle class="ring-glow" cx="100" cy="100" r="86"></circle>
+              <circle
+                id="tm-ring-progress"
+                class="ring-progress"
+                cx="100"
+                cy="100"
+                r="86"
+                filter="url(#rough-tm)"
+              ></circle>
+            </svg>
+            <div class="ring-center">
+              <div id="tm-display" class="time-display">05:00</div>
+              <div class="sub-label" id="tm-sub">countdown</div>
+            </div>
+          </div>
+        </div>
+
+        <div id="tm-setup" class="setup-grid">
+          <div class="num-field">
+            <button class="step-btn" data-field="h" data-dir="1">▲</button>
+            <label>H</label>
+            <input id="tm-h" type="number" min="0" max="23" value="0" />
+            <button class="step-btn" data-field="h" data-dir="-1">▼</button>
+          </div>
+          <div class="num-field">
+            <button class="step-btn" data-field="m" data-dir="1">▲</button>
+            <label>M</label>
+            <input id="tm-m" type="number" min="0" max="59" value="5" />
+            <button class="step-btn" data-field="m" data-dir="-1">▼</button>
+          </div>
+          <div class="num-field">
+            <button class="step-btn" data-field="s" data-dir="1">▲</button>
+            <label>S</label>
+            <input id="tm-s" type="number" min="0" max="59" value="0" />
+            <button class="step-btn" data-field="s" data-dir="-1">▼</button>
+          </div>
+        </div>
+
+        <!-- <div class="presets">
+          <button class="chip" data-secs="300">
+            <span class="chip-emoji"></span>5m
+          </button>
+          <button class="chip" data-secs="600">
+            <span class="chip-emoji"></span>10m
+          </button>
+          <button class="chip" data-secs="900">
+            <span class="chip-emoji"></span>15m
+          </button>
+          <button class="chip" data-secs="1500">
+            <span class="chip-emoji"></span>25m
+          </button>
+          <button class="chip" data-secs="3600">
+            <span class="chip-emoji"></span>60m
+          </button>
+        </div> -->
+
+        <div class="controls">
+          <button id="tm-start" class="btn btn-candy">
+            <span class="btn-icon play"></span>
+            <span class="btn-label">Start</span>
+          </button>
+          <button id="tm-reset" class="btn btn-acrylic">Reset</button>
+        </div>
+      </section>
+
+      <!-- ALARM -->
+      <section id="alarm" class="panel">
+        <div class="alarm-add">
+          <div class="alarm-add-row">
+            <input id="al-time" type="time" />
+            <label class="repeat-chk">
+              <input id="al-repeat" type="checkbox" />
+              <span class="repeat-pill">Daily</span>
+            </label>
+          </div>
+          <input
+            id="al-label"
+            type="text"
+            placeholder="What's this alarm for?"
+            maxlength="40"
+          />
+          <button id="al-add" class="btn btn-candy btn-block">
+            <svg viewBox="0 0 24 24" width="14" height="14">
+              <path
+                d="M12 5v14M5 12h14"
+                stroke="currentColor"
+                stroke-width="2.4"
+                stroke-linecap="round"
+              />
+            </svg>
+            Add Alarm
+          </button>
+        </div>
+
+        <ul id="al-list" class="alarm-list"></ul>
+        <div id="al-empty" class="empty-state">
+          <svg viewBox="0 0 24 24" width="30" height="30">
+            <path
+              d="M12 3a6 6 0 00-6 6v4l-2 3h16l-2-3V9a6 6 0 00-6-6z"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+            <path
+              d="M9 20a3 3 0 006 0"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+            />
+          </svg>
+          No alarms yet — add one above.
+        </div>
+      </section>
+    </div>
+
+    <!-- RINGING OVERLAY — stays until the user dismisses it -->
+    <div id="ring-overlay" class="ring-overlay">
+      <div class="ring-overlay-inner">
+        <div class="bell-pulse">
+          <svg viewBox="0 0 24 24" width="30" height="30">
+            <path
+              d="M12 3a6 6 0 00-6 6v4l-2 3h16l-2-3V9a6 6 0 00-6-6z"
+              fill="none"
+              stroke="#090B10"
+              stroke-width="1.7"
+            />
+            <path
+              d="M9 20a3 3 0 006 0"
+              fill="none"
+              stroke="#090B10"
+              stroke-width="1.7"
+            />
+          </svg>
+        </div>
+        <div id="ring-title" class="ring-title">Time's up</div>
+        <div id="ring-subtitle" class="ring-subtitle">
+          Your countdown has finished.
+        </div>
+        <button id="ring-dismiss" class="btn btn-candy btn-block">
+          Dismiss
+        </button>
+      </div>
+    </div>
+
+    <script src="popup.js"></script>
+  </body>
+</html>
