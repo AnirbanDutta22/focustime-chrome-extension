@@ -1,10 +1,13 @@
 # FocusTime: Stopwatch, Timer & Alarm (Chrome Extension)
 
-A handcrafted, character-driven Chrome extension with three tools in one popup:
+A vibe-coded, character-driven Chrome extension with three tools in one popup:
 
 - **Stopwatch** — start/pause/resume, reset, lap tracking, with a painterly glowing ring and an orbiting light dot.
 - **Timer** — countdown from a custom H/M/S (tap-to-step controls) or playful tilted preset tokens (5/10/15/25/60 min).
 - **Alarm** — one-time or daily-repeating alarms with an optional label, toggle on/off.
+
+
+<img width="900" height="900" alt="photo-collage png" src="https://github.com/user-attachments/assets/aa2db356-4dee-47ed-b43e-3f2abf7ba684" />
 
 ### Design language
 
