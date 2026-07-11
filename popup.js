@@ -157,11 +157,11 @@ const tmResetBtn = document.getElementById("tm-reset");
 const tmRing = document.getElementById("tm-ring-progress");
 const tmRingGlow = document.querySelector("#timer .ring-glow");
 const tmSetup = document.getElementById("tm-setup");
-const tmPresets = document.querySelector(".presets");
+// const tmPresets = document.querySelector(".presets");
 const tmH = document.getElementById("tm-h");
 const tmM = document.getElementById("tm-m");
 const tmS = document.getElementById("tm-s");
-const presetChips = document.querySelectorAll(".chip");
+// const presetChips = document.querySelectorAll(".chip");
 const stepBtns = document.querySelectorAll(".step-btn");
 
 const TIMER_ALARM_NAME = "focustime-timer";
@@ -210,7 +210,7 @@ function renderTimerRunning() {
     tmStartBtn.querySelector(".btn-icon").className = "btn-icon play";
     tmStartBtn.classList.remove("running");
     tmSetup.style.display = "grid";
-    tmPresets.style.display = "flex";
+    // tmPresets.style.display = "flex";
     renderTimerIdle();
     return;
   }
@@ -239,7 +239,7 @@ tmStartBtn.addEventListener("click", () => {
     tmStartBtn.querySelector(".btn-icon").className = "btn-icon play";
     tmStartBtn.classList.remove("running");
     tmSetup.style.display = "grid";
-    tmPresets.style.display = "flex";
+    // tmPresets.style.display = "flex";
     renderTimerIdle();
   } else {
     const totalSec = getSetupSeconds();
@@ -257,7 +257,7 @@ tmStartBtn.addEventListener("click", () => {
     tmStartBtn.querySelector(".btn-icon").className = "btn-icon pause";
     tmStartBtn.classList.add("running");
     tmSetup.style.display = "none";
-    tmPresets.style.display = "none";
+    // tmPresets.style.display = "none";
     startTimerInterval();
     renderTimerRunning();
   }
@@ -267,24 +267,24 @@ tmResetBtn.addEventListener("click", () => {
   if (tm.running) return;
   setSetupFromSeconds(300);
   renderTimerIdle();
-  presetChips.forEach((c) => c.classList.remove("active"));
+  // presetChips.forEach((c) => c.classList.remove("active"));
 });
 
-presetChips.forEach((chip) => {
-  chip.addEventListener("click", () => {
-    if (tm.running) return;
-    setSetupFromSeconds(parseInt(chip.dataset.secs, 10));
-    renderTimerIdle();
-    presetChips.forEach((c) => c.classList.remove("active"));
-    chip.classList.add("active");
-  });
-});
+// presetChips.forEach((chip) => {
+//   chip.addEventListener("click", () => {
+//     if (tm.running) return;
+//     setSetupFromSeconds(parseInt(chip.dataset.secs, 10));
+//     renderTimerIdle();
+//     presetChips.forEach((c) => c.classList.remove("active"));
+//     chip.classList.add("active");
+//   });
+// });
 
 [tmH, tmM, tmS].forEach((input) => {
   input.addEventListener("input", () => {
     if (tm.running) return;
     renderTimerIdle();
-    presetChips.forEach((c) => c.classList.remove("active"));
+    // presetChips.forEach((c) => c.classList.remove("active"));
   });
 });
 
@@ -300,7 +300,7 @@ stepBtns.forEach((btn) => {
     if (val > stepLimits[field]) val = 0;
     input.value = val;
     renderTimerIdle();
-    presetChips.forEach((c) => c.classList.remove("active"));
+    // presetChips.forEach((c) => c.classList.remove("active"));
   });
 });
 
@@ -490,7 +490,7 @@ function init() {
         tmStartBtn.querySelector(".btn-icon").className = "btn-icon pause";
         tmStartBtn.classList.add("running");
         tmSetup.style.display = "none";
-        tmPresets.style.display = "none";
+        // tmPresets.style.display = "none";
         startTimerInterval();
         renderTimerRunning();
       } else {
